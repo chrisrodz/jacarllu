@@ -27,7 +27,9 @@ class Dao:
     def getStore(self, phone):
         results = orm.Store.query.filter_by(phone=phone).first()
         return results
-
+    def getStore(self, email):
+        results = orm.Store.query.filter_by(email=email).first()
+        return results
 
 
 #dao = Dao()
