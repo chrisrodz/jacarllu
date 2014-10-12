@@ -9,7 +9,7 @@ class Venmo:
 		return
 
 	#Once an order is received, create an invoice and charge the customer
-	def charge(self, user_phone, store_phone, item_order):
+	def chargeByPhone(self, user_phone, store_phone, item_order):
 
 		store = Dao.getStorebyPhone(store_phone)
 
@@ -33,7 +33,7 @@ class Venmo:
 	 	else:
 	 		return False
 
-	def charge(self, user_email, store_email, item_order):
+	def chargeByEmail(self, user_email, store_email, item_order):
 
 		store = Dao.getStorebyEmail(store_email)
 
