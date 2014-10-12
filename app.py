@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 dao = Dao()
 
-client = TwilioRestClient(credentials.get_twilio_sid, credentials.get_twilio_token)
+client = TwilioRestClient(credentials.get_twilio_sid(), credentials.get_twilio_token())
 
 email = Emails()
 
@@ -27,15 +27,14 @@ def venmo_intercept():
             invoice = dao.updateInvoice(invoice_id, payment_status)
 
             #Check to see if email or phone number
-            has_email = re.search('@', invoice['from'])
+            has_email = '@' in invoice.from_
 
             if has_email:
                 message = "Pick up your coffee brah"
-                email.send_email(invoice['from'], message)
+                email.send_email(invoice.from_, message)
             else:
-                phone_number = invoice['from'].strip('-')
-                client.messages.create(to=phone_number, from_=credentials.get_twilio_number, body="Pick up yo' coffe brah")
-    print "hola"
+                phone_number = str(invoice.from_)
+                client.messages.create(to=phone_number, from_=credentials.get_twilio_number(), body='Pick up yo coffee brah')
     return request.args["venmo_challenge"]
 
 # import sendgrid_webhook

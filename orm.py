@@ -78,7 +78,7 @@ class Status(db.Model):
         self.name = name
 
     def __repr__(self):
-        return 'Name: ' + self.name
+        return 'Name: ' + str(self.name)
 
 #print(str(Invoice.query.all()))
 
