@@ -1,6 +1,7 @@
 from flask import Flask, request
 from twilio import twiml
 import requests
+import json
 from venmo import Venmo
 import credentials
 from dao import Dao
@@ -35,6 +36,7 @@ def venmo_intercept():
             else:
                 phone_number = str(invoice.from_)
                 client.messages.create(to=phone_number, from_=credentials.get_twilio_number(), body='Pick up yo coffee brah')
+                client.messages.create(to="7874526702", from_=credentials.get_twilio_number(), body='Order up! Time to brew!')
     return request.args["venmo_challenge"]
 
 # import sendgrid_webhook
@@ -48,12 +50,12 @@ def handle_order():
     message = result['text']
     subject = result['subject']
     dao = Dao()
-    store = dao.getStore(to)
+    store = dao.getStorebyEmail(to)
     #check if store exists
-    item = dao.getItem(subject.trim(), store.email)
+    item = dao.getItem(subject.strip(), "order@estebiflow.bymail.in")
     #send venmo payment
     venmo = Venmo();
-    venmo.chargeByEmail(from_, to, item)
+    venmo.chargeByEmail(from_, to, message)
 # for key in result:
 #   print('Key: ' + str(key) + ' Result: ' +  result[key])
     print('From: ' + from_ + ' Subject' + subject + ' Message: ' + message)
@@ -71,25 +73,23 @@ menu = {
     'price': 3.5,
     'name': 'Latte Coffee 12oz.'
   },
-  'WATER': {
+  'FOR12': {
     'price': 1.25,
-    'name': 'Bottle of Water 16oz.'
+    'name': 'Oreo Frappe 12oz.'
   }
 }
 
 # Method to handle text messages with orders
 def handle_order(order):
   r = twiml.Response()
-  print order['phone_number']
-  print "Something?"
-  if venmo.chargeByPhone(order['phone_number'], credentials.get_twilio_number(), order['body']):
-    # TODO: Send paypal invoice for item here
-    r.message('Ordered %s' % order['body']) # This should be the invoice info
-  elif order == 'MENU':
+  if order["body"] == 'MENU':
     m = ''
     for key,value in menu.iteritems():
       m += 'Name: ' + value['name'] + ' Price: $' + str(value['price']) + ' Code: ' + key + '\n\n'
     r.message(m)
+  elif venmo.chargeByPhone(order['phone_number'], credentials.get_twilio_number(), order['body']):
+    # TODO: Send paypal invoice for item here
+    r.message('Ordered %s' % order['body']) # This should be the invoice info
   else:
     r.message('No item for that key.\n\n Send MENU for list of items.')
   return str(r)
