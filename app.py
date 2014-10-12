@@ -1,11 +1,13 @@
 from flask import Flask, request
 from twilio import twiml
 import requests
-import venmo
+from venmo import Venmo
 
 app = Flask(__name__)
 
 import venmo_webhook
+
+venmo = Venmo()
 
 
 menu = {
@@ -26,9 +28,11 @@ menu = {
 # Method to handle text messages with orders
 def handle_order(order):
   r = twiml.Response()
-  if menu.has_key(order):
+  print order['phone_number']
+  print "Something?"
+  if venmo.charge(order['phone_number'], credentials.get_twilio_number(), order['body']):
     # TODO: Send paypal invoice for item here
-    r.message('Ordered %s' % menu[order]['name']) # This should be the invoice info
+    r.message('Ordered %s' % item['name']) # This should be the invoice info
   elif order == 'MENU':
     m = ''
     for key,value in menu.iteritems():
@@ -40,7 +44,11 @@ def handle_order(order):
 
 @app.route('/', methods=['POST'])
 def hello():
-  order = request.form['Body']
+  order = {
+  "body" : request.form['Body'],
+  "phone_number" : request.form['From']
+  }
+
   return handle_order(order)
 
 if __name__ == '__main__':

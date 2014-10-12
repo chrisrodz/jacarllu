@@ -1,14 +1,19 @@
 import credentials
+from dao import Dao
 
 VENMO_ACCESS_TOKEN = credentials.get_venmo_token()
 
 class Venmo:
+
+	def __init__(self):
+		return
+
 	#Once an order is received, create an invoice and charge the customer
-	def charge(user_phone, store_phone, item):
+	def charge(user_phone, store_phone, item_order):
 
 		store = Dao.getStore(store_phone)
 
-		item = Dao.getItem(store.id, item['name'])
+		item = Dao.getItem(store.id, item_order['name'])
 	 	
 	 	data = {
 	 		"access_token" : VENMO_ACCESS_TOKEN,
@@ -20,6 +25,10 @@ class Venmo:
 	 	url = "https://api.venmo.com/v1/payments"
 	 	response = requests.post(url, data)
 	 	if response.status_code == 200:
-	 		return True
+	 		invoice_id = response.json.get("payment").get("id")
+	 			#Invoice number
+	 		result = Dao.addInvoice(user_phone, invoice_id)
+	 		if result:
+	 			return True
 	 	else:
 	 		return False
