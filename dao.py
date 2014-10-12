@@ -1,5 +1,11 @@
 import orm
 
+statuses = {
+    "pending" : 1,
+    "paid" : 2,
+    "cancelled" : 3
+}
+
 class Dao:
 
     def __init__(self):
@@ -10,7 +16,7 @@ class Dao:
         return results
     def updateInvoice(self, invoiceNum, status):
         result = orm.Invoice.query.filter_by(invoice_num=invoiceNum).first()
-        result.status = status
+        result.status = statuses['status']
         orm.db.session.commit()
         return result
     def addInvoice(self, from_, invoice_num):

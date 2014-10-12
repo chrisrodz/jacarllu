@@ -3,6 +3,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:hackpr@104.131.99.25:3306/hackpratru'
+
 db = SQLAlchemy(app)
 
 class Invoice(db.Model):
