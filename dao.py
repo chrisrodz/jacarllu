@@ -8,8 +8,8 @@ class Dao:
     def getInvoices(self, from_):
         results = orm.Invoice.query.filter_by(from_=from_).all();
         return results
-    def updateInvoide(self, invoiceNum, status):
-        result = orm.Invoice.query.filter_by(invoiceNum=invoiceNum).first()
+    def updateInvoice(self, invoiceNum, status):
+        result = orm.Invoice.query.filter_by(invoice_num=invoiceNum).first()
         result.status = status
         orm.db.session.commit()
         return result

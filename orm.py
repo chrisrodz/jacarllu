@@ -70,7 +70,7 @@ class Order(db.Model):
         return 'Invoice ID: ' + str(self.invoice_id) + ', Item ID: ' + str(self.item_id)
 
 class Status(db.Model):
-    __status__ = 'status'
+    __tablename__ = 'status'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     def __init__(self, name):

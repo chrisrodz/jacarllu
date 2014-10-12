@@ -30,5 +30,5 @@ def venmo_intercept():
             else:
                 phone_number = invoice['from'].strip('-')
                 client.messages.create(to=phone_number, from_=credentials.get_twilio_number, body="Pick up yo' coffe brah")
-            
+    print "hola"
     return request.args["venmo_challenge"]
