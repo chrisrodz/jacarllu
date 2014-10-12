@@ -13,10 +13,11 @@ class Invoice(db.Model):
     created = db.Column(db.DateTime)
     status_id = db.Column('status', db.Integer, db.ForeignKey('status.id'))
 
-    def __init__(self, from_, invoice_num, status):
+    def __init__(self, from_, invoice_num, status_id=1):
         self.from_ = from_
         self.invoice_num = invoice_num
-        self.status = status
+        self.status_id=status_id
+
 
     def __repr__(self):
         return 'From: ' + self.from_ + ', Invoice Number: ' + self.invoice_num + ', Status: ' + str(self.status)
@@ -25,13 +26,15 @@ class Establishment(db.Model):
     __tablename__ = 'establishment'
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String)
+    phone = db.Column(db.String)
     created_ts = db.Column(db.DateTime)
 
-    def __init__(self, name):
+    def __init__(self, name, phone):
         self.name = name
+        self.phone = phone
 
     def __repr__(self):
-        return 'Name: ' + self.name
+        return 'Name: ' + self.name + ', Phone: ' + self.phone
 
 class Item(db.Model):
     __tablename__ = 'item'
@@ -74,12 +77,12 @@ class Status(db.Model):
     def __repr__(self):
         return 'Name: ' + self.name
 
-print(str(Invoice.query.all()))
+#print(str(Invoice.query.all()))
 
-print(str(Establishment.query.all()))
+#print(str(Establishment.query.all()))
 
-print(str(Item.query.all()))
+#print(str(Item.query.all()))
 
-print(str(Order.query.all()))
+#print(str(Order.query.all()))
 
-print(str(Status.query.all()))
+#print(str(Status.query.all()))
