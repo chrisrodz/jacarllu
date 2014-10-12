@@ -25,10 +25,10 @@ class Dao:
         results = orm.Item.query.filter_by(store_id=store_id, name=name).first()
         return results
     def getStorebyPhone(self, phone):
-        results = orm.Store.query.filter_by(phone=phone).first()
+        results = orm.Establishment.query.filter_by(phone=phone).first()
         return results
     def getStorebyEmail(self, email):
-        results = orm.Store.query.filter_by(email=email).first()
+        results = orm.Establishment.query.filter_by(email=email).first()
         return results
 
 

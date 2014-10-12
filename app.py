@@ -2,6 +2,7 @@ from flask import Flask, request
 from twilio import twiml
 import requests
 from venmo import Venmo
+import credentials
 
 app = Flask(__name__)
 
@@ -32,9 +33,9 @@ def handle_order(order):
   r = twiml.Response()
   print order['phone_number']
   print "Something?"
-  if venmo.charge(order['phone_number'], credentials.get_twilio_number(), order['body']):
+  if venmo.chargeByPhone(order['phone_number'], credentials.get_twilio_number(), order['body']):
     # TODO: Send paypal invoice for item here
-    r.message('Ordered %s' % item['name']) # This should be the invoice info
+    r.message('Ordered %s' % order['body']) # This should be the invoice info
   elif order == 'MENU':
     m = ''
     for key,value in menu.iteritems():
