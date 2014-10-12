@@ -9,15 +9,17 @@ class Invoice(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     from_ = db.Column('from', db.String)
     status = db.relationship('Status', backref=db.backref('invoices', lazy='dynamic'))
+    invoice_num = db.Column('invoiceNum', db.String)
     created = db.Column(db.DateTime)
-    status_id = db.Column('status',db.Integer, db.ForeignKey('status.id'))
+    status_id = db.Column('status', db.Integer, db.ForeignKey('status.id'))
 
-    def __init__(self, from_, status):
+    def __init__(self, from_, invoice_num, status):
         self.from_ = from_
+        self.invoice_num = invoice_num
         self.status = status
 
     def __repr__(self):
-        return 'From: ' + self.from_ + ', Status: ' + str(self.status)
+        return 'From: ' + self.from_ + ', Invoice Number: ' + self.invoice_num + ', Status: ' + str(self.status)
 
 class Establishment(db.Model):
     __tablename__ = 'establishment'
