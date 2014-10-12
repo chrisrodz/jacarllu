@@ -11,7 +11,7 @@ class Venmo:
 	#Once an order is received, create an invoice and charge the customer
 	def charge(self, user_phone, store_phone, item_order):
 
-		store = Dao.getStore(store_phone)
+		store = Dao.getStorebyPhone(store_phone)
 
 		item = Dao.getItem(store.id, item_order['name'])
 	 	
@@ -35,13 +35,13 @@ class Venmo:
 
 	def charge(self, user_email, store_email, item_order):
 
-		store = Dao.getStore(store_email)
+		store = Dao.getStorebyEmail(store_email)
 
 		item = Dao.getItem(store.id, item_order['name'])
 
 	 	data = {
 	 		"access_token" : VENMO_ACCESS_TOKEN,
-	 		"phone" : user_email, ################### fix "phone" tag
+	 		"email" : user_email, 
 	 		"note" : item.description,
 	 		"amount": -1 * item.price
 	 	}
