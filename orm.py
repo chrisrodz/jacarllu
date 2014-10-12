@@ -27,14 +27,16 @@ class Establishment(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String)
     phone = db.Column(db.String)
+    email = db.Column(db.String)
     created_ts = db.Column(db.DateTime)
 
-    def __init__(self, name, phone):
+    def __init__(self, name, phone='',email=''):
         self.name = name
         self.phone = phone
+        self.email = email
 
     def __repr__(self):
-        return 'Name: ' + self.name + ', Phone: ' + self.phone
+        return 'Name: ' + self.name + ', Phone: ' + str(self.phone) + ', Email: ' + str(self.email) + '\n';
 
 class Item(db.Model):
     __tablename__ = 'item'
@@ -79,7 +81,7 @@ class Status(db.Model):
 
 #print(str(Invoice.query.all()))
 
-#print(str(Establishment.query.all()))
+print(str(Establishment.query.all()))
 
 #print(str(Item.query.all()))
 
