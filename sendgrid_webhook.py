@@ -1,11 +1,6 @@
-from flask import Flask, request, json
-import Dao, Venmo
-
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return 'Hello World'
+from app import app
+from dao import Dao
+from venmo import Venmo
 
 @app.route('/webhook', methods=['POST'])
 def handle_order():
@@ -21,11 +16,8 @@ def handle_order():
     item = dao.getItem(subject.trim(), store.email)
     #send venmo payment
     venmo = Venmo();
-    venmo.charge(from_, to, item)
+    venmo.chargeByEmail(from_, to, item)
 #	for key in result:
 #		print('Key: ' + str(key) + ' Result: ' +  result[key])
     print('From: ' + from_ + ' Subject' + subject + ' Message: ' + message)
     return str(request.form)
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')

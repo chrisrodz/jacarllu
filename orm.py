@@ -81,7 +81,7 @@ class Status(db.Model):
 
 #print(str(Invoice.query.all()))
 
-print(str(Establishment.query.all()))
+#print(str(Establishment.query.all()))
 
 #print(str(Item.query.all()))
 
