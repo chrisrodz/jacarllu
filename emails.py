@@ -15,4 +15,4 @@ class Emails:
         status, msg = self.sg.send(message)
 
 #emails = Emails()
-#emails.send_email('***REMOVED***','Aloha')
+#emails.send_email('test@example.com','Aloha')
